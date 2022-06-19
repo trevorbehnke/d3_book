@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <style>
+      line {
+        stroke-width: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <svg>
+      <line x2="400" stroke="red" stroke-width="5" />
+      <line y2="150" stroke="blue" stroke-width="5" />
+      <line x2="200" y2="150" stroke="black" stroke-width="1" />
+    </svg>
+    <script>
+      function myFunc() {
+        console.log("myFunc: ", this);
+      }
+      myFunc();
+      const myObj = {
+        arrowFunc: () => console.log("arrowFunc: ", this),
+      };
+      const arrowFunc = myObj.arrowFunc;
+      arrowFunc();
+    </script>
+  </body>
+</html>
