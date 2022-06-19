@@ -7,35 +7,22 @@
     <title>Document</title>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <style>
+      * {
+        font-family: sans-serif;
+      }
       .bar-chart {
         border: solid 1px gray;
-        position: relative;
         width: 800px;
-      }
-      .entry {
-        position: absolute;
-        width: 100%;
       }
       .bar {
         height: 20px;
-        top: 1px;
-        left: 100px;
-        background-color: orange;
-        position: absolute;
+        fill: orange;
       }
       .label {
-        padding: 4px 5px;
-        font-family: sans-serif;
         font-size: 9pt;
-        position: absolute;
-        height: 20px;
       }
       .category {
-        text-align: right;
-        width: 80px;
-      }
-      .value {
-        text-align: left;
+        text-anchor: end;
       }
     </style>
   </head>
@@ -56,13 +43,6 @@
     });
 
     function draw(distances) {
-      // d3.select("body")
-      //   .append("ol")
-      //   .selectAll("li")
-      //   .data(distances)
-      //   .join("li")
-      //   .text((d) => d.name + " (" + d.distance + " AU)");
-
       distances.sort((a, b) => d3.ascending(a.distance, b.distance));
 
       const barScale = d3.scaleLinear();
@@ -77,36 +57,40 @@
 
       const chart = d3
         .select("body")
-        .append("div")
+        .append("svg")
         .attr("class", "bar-chart")
-        .style("height", () => distances.length * 21 + "px");
+        .style("height", () => distances.length * 21);
 
       const entries = chart
-        .selectAll("div")
+        .selectAll("g")
         .data(distances)
         .enter()
-        .append("div")
+        .append("g")
         .attr("class", "entry")
-        .style("top", (d, i) => i * 21 + "px");
+        .attr("transform", (d, i) => `translate(0, ${i * 21})`);
 
       entries.each(function (d) {
         const entry = d3.select(this);
-        entry.append("div").attr("class", "label category").text(d.name);
+        entry
+          .append("text")
+          .attr("class", "label category")
+          .attr("y", 15)
+          .attr("x", 90)
+          .text(d.name);
 
         entry
-          .append("div")
+          .append("rect")
           .attr("class", "bar")
+          .attr("x", 100)
           .style("width", barScale(d.distance) + "px")
-          .style(
-            "background-color",
-            d3.color("orange").darker(colorScale(d.distance))
-          );
+          .style("fill", d3.color("orange").darker(colorScale(d.distance)));
 
         entry
-          .append("div")
+          .append("text")
           .attr("class", "label value")
-          .style("left", barScale(d.distance) + 100 + "px")
-          .text((d) => fmt(d.distance) + " AU");
+          .attr("y", 15)
+          .attr("x", barScale(d.distance) + 105)
+          .text(fmt(d.distance) + " AU");
       });
     }
   </script>
