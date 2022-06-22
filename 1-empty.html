@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Empty</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <style></style>
+  </head>
+  <body>
+    <div id="words">
+      <p>One</p>
+      <p>Two</p>
+      <p>Three</p>
+    </div>
+    <p>Four</p>
+    <p>Five</p>
+    <script>
+      // const selection = d3.selectAll("p");
+      // console.log("selection: ", selection);
+      // const nodelist = selection.nodes();
+      // console.log("nodelist: ", nodelist);
+      // console.log("nodelist[2]: ", nodelist[2]);
+      // console.log("nodelist[3].innerText: ", nodelist[2].innerText);
+
+      const selection = d3.select("#words").selectAll("p");
+
+      //
+      // selection
+      //   .data([7, 4, 8])
+      //   .filter(function (d, i, nodes) {
+      //     console.log("d:", d, "i:", i, "nodes:", nodes, "this:", this);
+      //     return true;
+      //   })
+      //   .text(function (d) {
+      //     return d3.select(this).text() + " " + d;
+      //   });
+
+      selection
+        .data([7, 4, 8])
+        .filter((d, i, nodes) => console.log(d, i, nodes, nodes[i]) || true)
+        .text((d, i, nodes) => d3.select(nodes[i]).text() + " " + d);
+    </script>
+  </body>
+</html>
